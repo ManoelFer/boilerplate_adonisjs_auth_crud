@@ -23,3 +23,18 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
+
+Route.group(() => {
+  Route.post('/login', 'AuthController.login')
+
+  Route.post('/users', 'UsersController.store')
+
+  Route.post('/userFactories', 'UsersController.storeFake')
+}).prefix('/v1')
+
+//TODO Auth Routes
+Route.group(() => {
+  Route.resource('/users', 'UsersController').except(['store'])
+})
+  .prefix('/v1')
+  .middleware(['auth'])
